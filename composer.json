@@ -1,0 +1,44 @@
+{
+    "name": "konceiver/pretty-byte",
+    "description": "Convert bytes to a human readable strings",
+    "keywords": [
+        "konceiver",
+        "pretty-byte"
+    ],
+    "homepage": "https://github.com/konceiver/pretty-byte",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brian Faust",
+            "email": "brian@konceiver.dev",
+            "homepage": "https://konceiver.dev",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "illuminate/support": "^7.0"
+    },
+    "require-dev": {
+        "konceiver/laravel-stan": "^1.1",
+        "konceiver/stan": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Konceiver\\PrettyByte\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Konceiver\\PrettyByte\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest --coverage --min=100"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
