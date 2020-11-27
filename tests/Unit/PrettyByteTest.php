@@ -29,6 +29,8 @@ test('supports negative number', function ($input, $output): void {
 ]);
 
 test('locale option', function ($input, $locale, $output): void {
+    Locale::setDefault('en_US');
+
     expect(PrettyByte::format($input, ['locale' => $locale]))->toBe($output);
 })->with([
     [-0.4, 'de-DE', '-0,4 B'],

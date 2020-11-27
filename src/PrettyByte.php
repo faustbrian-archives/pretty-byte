@@ -82,10 +82,6 @@ final class PrettyByte
 
     private static function toPrecision($number, $precision)
     {
-        if ($number === 0) {
-            return 0;
-        }
-
         $exponent    = floor(log10(abs($number)) + 1);
         $significand = round(($number / pow(10, $exponent)) * pow(10, $precision)) / pow(10, $precision);
 
@@ -100,12 +96,14 @@ final class PrettyByte
             ($options['binary'] ? static::BIBIT_UNITS : static::BIT_UNITS) :
             ($options['binary'] ? static::BIBYTE_UNITS : static::BYTE_UNITS);
 
-        if (Arr::get($options, 'signed', false) && $number === 0) {
+        $isSigned = (bool) Arr::get($options, 'signed', false);
+
+        if ($isSigned && $number === 0) {
             return ' 0 '.$UNITS[0];
         }
 
         $isNegative = $number < 0;
-        $prefix     = $isNegative ? '-' : (Arr::get($options, 'signed', false) ? '+' : '');
+        $prefix     = $isNegative ? '-' : ($isSigned ? '+' : '');
 
         if ($isNegative) {
             $number = -$number;
