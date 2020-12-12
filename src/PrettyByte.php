@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Konceiver\PrettyByte;
 
-use Illuminate\Support\Arr;
 use Locale;
 use NumberFormatter;
 
@@ -96,7 +95,7 @@ final class PrettyByte
             ($options['binary'] ? static::BIBIT_UNITS : static::BIT_UNITS) :
             ($options['binary'] ? static::BIBYTE_UNITS : static::BYTE_UNITS);
 
-        $isSigned = (bool) Arr::get($options, 'signed', false);
+        $isSigned = (bool) static::getValueFromArray($options, 'signed', false);
 
         if ($isSigned && $number === 0) {
             return ' 0 '.$UNITS[0];
@@ -110,17 +109,25 @@ final class PrettyByte
         }
 
         if ($number < 1) {
-            $numberString = static::toLocaleString($number, Arr::get($options, 'locale'));
+            $numberString = static::toLocaleString($number, static::getValueFromArray($options, 'locale'));
 
             return $prefix.$numberString.' '.$UNITS[0];
         }
 
         $exponent     = min(floor($options['binary'] ? log($number) / log(1024) : log10($number) / 3), count($UNITS) - 1);
         $number       = static::toPrecision(($number / pow($options['binary'] ? 1024 : 1000, $exponent)), 3);
-        $numberString = static::toLocaleString($number, Arr::get($options, 'locale'));
+        $numberString = static::toLocaleString($number, static::getValueFromArray($options, 'locale'));
 
         $unit = $UNITS[$exponent];
 
         return $prefix.$numberString.' '.$unit;
+    }
+
+    private static function getValueFromArray(array $data, string $key, mixed $default = null): mixed {
+        if (! array_key_exists($key, $data)) {
+            return $default;
+        }
+
+        return $data[$key] ?? $default;
     }
 }
